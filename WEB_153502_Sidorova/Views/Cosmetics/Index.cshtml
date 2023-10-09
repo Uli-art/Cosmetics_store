@@ -58,7 +58,7 @@
                                 <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Name)</h5>
                                 <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
                             </div>
-                            <a asp-controller="card/add/@item.Id"
+                            <a asp-controller="Cosmetics/card/add/@item.Id"
                                asp-route-pageNo="@Model.CurrentPage"
                                asp-route-returnUrl="@returnUrl"
                                class="btn btn-primary mb-3 ms-3">Добавить в корзину <i class="fa-solid fa-cart-shopping"></i></a>

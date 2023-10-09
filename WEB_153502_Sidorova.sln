@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB_153502_Sidorova", "WEB_153502_Sidorova\WEB_153502_Sidorova.csproj", "{63350000-F0D7-432C-B8D6-3FD5C8DB2A83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmeticsShop.Domain", "Cosmetics.Domain\CosmeticsShop.Domain.csproj", "{559E71D1-E37F-4A2F-8969-63532AB494F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmeticsShop.Domain", "Cosmetics.Domain\CosmeticsShop.Domain.csproj", "{559E71D1-E37F-4A2F-8969-63532AB494F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_153502_Sidorova.API", "WEB_153502_Sidorova.API\WEB_153502_Sidorova.API.csproj", "{1F258457-066D-4A6C-BE2E-5A325AB600FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{559E71D1-E37F-4A2F-8969-63532AB494F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{559E71D1-E37F-4A2F-8969-63532AB494F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{559E71D1-E37F-4A2F-8969-63532AB494F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

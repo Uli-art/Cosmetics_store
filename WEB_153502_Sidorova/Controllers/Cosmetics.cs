@@ -7,13 +7,13 @@ namespace WEB_153502_Sidorova.Controllers
 {
     public class Cosmetics : Controller
     {
-        public IShopService _shopService = new MemoryShopService();
+        public IShopService _shopService;
         public ICosmeticsService _service;
         private IConfiguration _config;
-        public Cosmetics(IShopService _shopService, ICosmeticsService _service) 
+        public Cosmetics(IShopService shopService, ICosmeticsService service) 
         {
-            _shopService = new MemoryShopService();
-            _service = new MemoryCosmeticsService(_config, _shopService);
+            _shopService = shopService;
+            _service = service;
         }
         public async Task<IActionResult> Index(string? category, int pageNo = 1)
         {
@@ -22,7 +22,6 @@ namespace WEB_153502_Sidorova.Controllers
 
             ViewData["currentCategory"] = category!=null ? listOfCategories.Data?.Find(item=> item.NormalizedName == category).Name : "Все";
 
-            _service = new MemoryCosmeticsService(_config, _shopService);
             var productResponse = await _service.GetProductListAsync(category, pageNo) ;
             if (!productResponse.Success)
                 return NotFound(productResponse.ErrorMessage);
