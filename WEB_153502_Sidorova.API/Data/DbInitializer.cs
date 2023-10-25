@@ -29,6 +29,7 @@ namespace WEB_153502_Sidorova.API.Data
                     NormalizedName = "hair"
                 }
             );
+            context.SaveChanges();
             context.CosmeticsSet.AddRange(
              new Cosmetics
              {

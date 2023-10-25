@@ -11,10 +11,14 @@ namespace WEB_153502_Sidorova.API.Services.CosmeticsService
     {
         private readonly int _maxPageSize = 30;
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CosmeticsService(AppDbContext context)
+        public CosmeticsService(AppDbContext context, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _environment = env;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<ResponseData<Cosmetics>> CreateProductAsync(Cosmetics product)
         {
@@ -113,44 +117,89 @@ namespace WEB_153502_Sidorova.API.Services.CosmeticsService
 
         public async Task<ResponseData<string>> SaveImageAsync(int id, IFormFile formFile)
         {
-            ResponseData<Cosmetics> response = await GetProductByIdAsync(id);
-
-            if (response.Success)
+            var responseData = new ResponseData<string>();
+            var cosmetics = await _context.CosmeticsSet.FindAsync(id);
+            if (cosmetics == null)
             {
-                if (formFile != null)
-                {
-                    string path = "/Images/" + formFile.FileName;
-                    using (var fileStream = new FileStream("wwwroot/" + path, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(fileStream);
-                    }
-                    Cosmetics product = response.Data;
-                    product.Image =  path;
-                    await UpdateProductAsync(id, product);
-                    _context.SaveChanges();
-                    return new ResponseData<string> 
-                    { 
-                       Data = path
-                    };
-                }
+                responseData.Success = false;
+                responseData.ErrorMessage = "No item found";
+                return responseData;
             }
-            return new ResponseData<string>
+
+            var host = "https://" + _httpContextAccessor.HttpContext.Request.Host;
+            var imageFolder = Path.Combine(_environment.WebRootPath, "Images");
+            if (formFile != null)
             {
-                Data = null,
-                Success = false
-            };
+                // Удалить предыдущее изображение
+                if (!String.IsNullOrEmpty(cosmetics.Image))
+                {
+                    var prevImage = Path.GetFileName(cosmetics.Image);
+                    var prevImagePath = Path.Combine(imageFolder, prevImage);
+
+                    if (File.Exists(prevImagePath))
+                    {
+                        File.Delete(prevImagePath);
+                    }
+                }
+                // Создать имя файла
+                var ext = Path.GetExtension(formFile.FileName);
+                var fName = Path.ChangeExtension(Path.GetRandomFileName(), ext);
+                // Сохранить файл
+                using (var fileStream = new FileStream($"{imageFolder}/{fName}", FileMode.Create))
+                {
+                    await formFile.CopyToAsync(fileStream);
+                }
+                // Указать имя файла в объекте
+                cosmetics.Image = $"{host}/Images/{fName}";
+                await _context.SaveChangesAsync();
+            }
+
+            responseData.Data = cosmetics.Image;
+            return responseData;
+            /* ResponseData<Cosmetics> response = await GetProductByIdAsync(id);
+
+  if (response.Success)
+  {
+      if (formFile != null)
+      {
+          string path = "/Images/" + formFile.FileName;
+          using (var fileStream = new FileStream("wwwroot/" + path, FileMode.Create))
+          {
+              await formFile.CopyToAsync(fileStream);
+          }
+          Cosmetics product = response.Data;
+          product.Image =  path;
+          await UpdateProductAsync(id, product);
+          _context.SaveChanges();
+          return new ResponseData<string> 
+          { 
+             Data = path
+          };
+      }
+  }
+  return new ResponseData<string>
+  {
+      Data = null,
+      Success = false
+  };*/
         }
 
         public async Task UpdateProductAsync(int id, Cosmetics product)
         {
-            ResponseData<Cosmetics> response = await GetProductByIdAsync(id);
-
-            if (response.Success)
+            var curr_product = await _context.CosmeticsSet.FindAsync(id);
+            if (curr_product != null)
             {
-                product.Id = id;  
-                _context.CosmeticsSet.Update(product);
+                curr_product.Name = product.Name;
+                curr_product.Description = product.Description;
+                curr_product.Price = product.Price;
+                if (product.Image is not null)
+                {
+                    curr_product.Image = product.Image;
+                }
+                curr_product.Category = product.Category;
+                _context.Update(curr_product);
+                await _context.SaveChangesAsync();
             }
-            _context.SaveChanges();
         }
     }
 }

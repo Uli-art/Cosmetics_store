@@ -1,0 +1,63 @@
+﻿@page
+@model WEB_153502_Sidorova.Areas.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary btn-sm rounded-1" title="Create"><i class="fa fa-plus"></i> Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="w-25">
+                @Html.DisplayNameFor(model => model.Cosmetics[0].Name)
+            </th>
+            <th class="w-25">
+                @Html.DisplayNameFor(model => model.Cosmetics[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cosmetics[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cosmetics[0].Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Cosmetics) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+                <td >
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                    <img class="product_img" src="@item.Image"/>
+            </td>
+            <td>
+                        <div class = "d-flex justify-content-center gap-2">
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm rounded-1 d-inline-block" title="Edit"><i class="fa fa-edit"></i> Edit</a> 
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info btn-sm rounded-1 d-inline-block" title="Delete"><i class="fa fa-info"></i> Details</a> 
+                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm rounded-1 d-inline-block" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i> Delete</a>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<style>
+    .product_img {
+        height: 200px;
+    }
+
+</style>

@@ -66,14 +66,14 @@ namespace WEB_153502_Sidorova.API.Migrations
                     b.ToTable("CosmeticsSet");
                 });
 
-/*            modelBuilder.Entity("CosmeticsShop.Domain.Entities.Cosmetics", b =>
+            modelBuilder.Entity("CosmeticsShop.Domain.Entities.Cosmetics", b =>
                 {
                     b.HasOne("CosmeticsShop.Domain.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
-                });*/
+                });
 #pragma warning restore 612, 618
         }
     }

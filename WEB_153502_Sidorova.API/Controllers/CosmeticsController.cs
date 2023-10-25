@@ -10,6 +10,7 @@ using WEB_153502_Sidorova.API.Data;
 using CosmeticsShop.Domain.Models;
 using WEB_153502_Sidorova.API.Services.CosmeticsService;
 using WEB_153502_Sidorova.API.Services.ShopService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WEB_153502_Sidorova.API.Controllers
 {
@@ -17,12 +18,18 @@ namespace WEB_153502_Sidorova.API.Controllers
     [ApiController]
     public class CosmeticsController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private CosmeticsService _cosmeticsService { get; set; }
-        public CosmeticsController(AppDbContext context)
+        private ICosmeticsService _cosmeticsService { get; set; }
+
+        private ILogger<CosmeticsController> _logger;
+        private string _imagesPath;
+        private string? _appUri;
+
+        public CosmeticsController(ICosmeticsService context, IWebHostEnvironment env, IConfiguration configuration, ILogger<CosmeticsController> logger)
         {
-            _context = context;
-            _cosmeticsService = new CosmeticsService(_context);
+            _cosmeticsService = context;
+            _logger = logger;
+            _imagesPath = Path.Combine(env.WebRootPath, "Images");
+            _appUri = configuration.GetSection("appUri").Value;
         }
 
         // GET: api/Cosmetics
@@ -48,6 +55,7 @@ namespace WEB_153502_Sidorova.API.Controllers
         // PUT: api/Cosmetics/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task PutCosmetics(int id, Cosmetics cosmetics)
         {
             await _cosmeticsService.UpdateProductAsync(id, cosmetics);
@@ -56,6 +64,7 @@ namespace WEB_153502_Sidorova.API.Controllers
         // POST: api/Cosmetics
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseData<Cosmetics>>> PostCosmetics(Cosmetics cosmetics)
         {
           return await _cosmeticsService.CreateProductAsync(cosmetics);
@@ -63,14 +72,28 @@ namespace WEB_153502_Sidorova.API.Controllers
 
         // DELETE: api/Cosmetics/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task DeleteCosmetics(int id)
         {
             await _cosmeticsService.DeleteProductAsync(id);
+        }
+
+        [HttpPost("{id}")]
+        [Authorize]
+        public async Task<ActionResult<ResponseData<string>>> PostImage( int id, IFormFile formFile)
+        {
+            var response = await _cosmeticsService.SaveImageAsync(id, formFile);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return NotFound(response);
         }
 
         private Task<ResponseData<Cosmetics>> CosmeticsExists(int id)
         {
             return _cosmeticsService.GetProductByIdAsync(id);
         }
+
     }
 }

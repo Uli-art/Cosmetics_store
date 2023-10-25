@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB_153502_Sidorova", "WEB_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmeticsShop.Domain", "Cosmetics.Domain\CosmeticsShop.Domain.csproj", "{559E71D1-E37F-4A2F-8969-63532AB494F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_153502_Sidorova.API", "WEB_153502_Sidorova.API\WEB_153502_Sidorova.API.csproj", "{1F258457-066D-4A6C-BE2E-5A325AB600FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB_153502_Sidorova.API", "WEB_153502_Sidorova.API\WEB_153502_Sidorova.API.csproj", "{1F258457-066D-4A6C-BE2E-5A325AB600FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_153502_Sidorova.IdentityServer", "WEB_153502_Sidorova.IdentityServer\WEB_153502_Sidorova.IdentityServer.csproj", "{4E8FB07D-9462-4587-9BEC-AF79A25EA104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F258457-066D-4A6C-BE2E-5A325AB600FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E8FB07D-9462-4587-9BEC-AF79A25EA104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8FB07D-9462-4587-9BEC-AF79A25EA104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8FB07D-9462-4587-9BEC-AF79A25EA104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8FB07D-9462-4587-9BEC-AF79A25EA104}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
